@@ -1,0 +1,16 @@
+meta {
+  name: Delete Category
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{base_url}}/categories/22222222-2222-2222-2222-222222222222
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+

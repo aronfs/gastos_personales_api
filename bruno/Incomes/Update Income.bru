@@ -1,0 +1,23 @@
+meta {
+  name: Update Income
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/incomes/33333333-3333-3333-3333-333333333333
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "amount": 2600,
+  "description": "Monthly salary payout with bonus"
+}
+}
+

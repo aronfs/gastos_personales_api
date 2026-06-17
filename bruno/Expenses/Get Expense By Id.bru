@@ -1,0 +1,16 @@
+meta {
+  name: Get Expense By Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/expenses/44444444-4444-4444-4444-444444444444
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+

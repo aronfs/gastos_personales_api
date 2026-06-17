@@ -1,0 +1,24 @@
+meta {
+  name: Update Category
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/categories/22222222-2222-2222-2222-222222222222
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "name": "Salary Updated",
+  "icon": "briefcase-updated",
+  "color": "#27AE60"
+}
+}
+

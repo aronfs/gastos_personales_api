@@ -1,0 +1,25 @@
+meta {
+  name: Create Income
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/incomes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "categoryId": "22222222-2222-2222-2222-222222222222",
+  "amount": 2500,
+  "description": "Monthly salary payout",
+  "transactionDate": "2026-06-17"
+}
+}
+

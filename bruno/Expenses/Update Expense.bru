@@ -1,0 +1,23 @@
+meta {
+  name: Update Expense
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/expenses/44444444-4444-4444-4444-444444444444
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "amount": 18,
+  "description": "Lunch with team updated"
+}
+}
+

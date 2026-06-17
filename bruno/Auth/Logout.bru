@@ -1,0 +1,22 @@
+meta {
+  name: Logout
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/auth/logout
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "refreshToken": "{{refresh_token}}"
+}
+}
+

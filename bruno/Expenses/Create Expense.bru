@@ -1,0 +1,25 @@
+meta {
+  name: Create Expense
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/expenses
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+{
+  "categoryId": "55555555-5555-5555-5555-555555555555",
+  "amount": 15.5,
+  "description": "Lunch with coworkers",
+  "transactionDate": "2026-06-17"
+}
+}
+

@@ -1,0 +1,16 @@
+meta {
+  name: Categories Report
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/reports/categories?startDate=2026-06-01&endDate=2026-06-30
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+

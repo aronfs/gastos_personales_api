@@ -1,0 +1,16 @@
+meta {
+  name: Yearly Report
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/reports/yearly?year=2026
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
