@@ -1,11 +1,11 @@
 meta {
   name: Get User By Id
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
-  url: {{base_url}}/users/11111111-1111-1111-1111-111111111111
+  url: {{base_url}}/users/{{user_id}}
   body: none
   auth: bearer
 }
@@ -14,3 +14,21 @@ auth:bearer {
   token: {{access_token}}
 }
 
+vars:pre-request {
+  user_id: 7d7b5d71-a681-40b1-bcde-7546e5838f44
+}
+
+docs {
+  # Get User By Id
+  Retorna un usuario por su UUID.
+  
+  ## Path Params
+  | Param   | Tipo | Requerido | Descripción     |
+  |---------|------|-----------|-----------------|
+  | user_id | uuid | ✅        | UUID del usuario |
+  
+  ## Notas
+  - Reemplazar `{{user_id}}` con el UUID real del usuario
+  - Un ADMIN puede ver cualquier usuario
+  - Un USER solo puede ver su propio perfil (validado en el servicio)
+}

@@ -1,7 +1,7 @@
 meta {
   name: Create Expense
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
@@ -15,11 +15,32 @@ auth:bearer {
 }
 
 body:json {
-{
-  "categoryId": "55555555-5555-5555-5555-555555555555",
-  "amount": 15.5,
-  "description": "Lunch with coworkers",
-  "transactionDate": "2026-06-17"
-}
+  {
+    "categoryId": "{{category_id}}",
+    "amount": 7.00,
+    "description": "Comida-Rapida Hamburguesa",
+    "transactionDate": "2026-06-17"
+  }
 }
 
+vars:pre-request {
+  category_id: 3dbd4652-1ea9-4832-ab52-79f5fe21f0d3
+}
+
+docs {
+  # Create Expense
+  Registra un nuevo gasto para el usuario autenticado.
+  
+  ## Request Body
+  | Campo           | Tipo    | Requerido | Descripción                           |
+  |-----------------|---------|-----------|---------------------------------------|
+  | categoryId      | uuid    | ✅        | UUID de una categoría tipo `EXPENSE`  |
+  | amount          | decimal | ✅        | Monto positivo con hasta 2 decimales  |
+  | transactionDate | date    | ✅        | Fecha: `YYYY-MM-DD`                   |
+  | description     | string  | ❌        | Descripción (máx. 500 chars)          |
+  
+  ## Validaciones
+  - `categoryId` debe pertenecer al usuario y ser de tipo `EXPENSE`
+  - `amount` debe ser positivo
+  - `transactionDate` en formato `YYYY-MM-DD`
+}

@@ -1,11 +1,11 @@
 meta {
   name: Get Income By Id
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
-  url: {{base_url}}/incomes/33333333-3333-3333-3333-333333333333
+  url: {{base_url}}/incomes/{{income_id}}
   body: none
   auth: bearer
 }
@@ -14,3 +14,17 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Income By Id
+  Retorna un ingreso por su UUID.
+
+  ## Path Params
+  | Param     | Tipo | Requerido | Descripción      |
+  |-----------|------|-----------|------------------|
+  | income_id | uuid | ✅        | UUID del ingreso |
+
+  ## Notas
+  - Solo retorna ingresos del usuario autenticado
+  - Incluye los datos completos de la categoría asociada
+  - Retorna 404 si no existe o pertenece a otro usuario
+}

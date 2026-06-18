@@ -1,7 +1,7 @@
 meta {
   name: Create Income
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
@@ -15,11 +15,32 @@ auth:bearer {
 }
 
 body:json {
-{
-  "categoryId": "22222222-2222-2222-2222-222222222222",
-  "amount": 2500,
-  "description": "Monthly salary payout",
-  "transactionDate": "2026-06-17"
-}
+  {
+    "categoryId": "{{category_id}}",
+    "amount": 500.00,
+    "description": "Salario mensual junio 2026",
+    "transactionDate": "2026-06-01"
+  }
 }
 
+vars:pre-request {
+  category_id: d2e966f0-3dac-469f-a377-ea12bd1cffe7
+}
+
+docs {
+  # Create Income
+  Registra un nuevo ingreso para el usuario autenticado.
+  
+  ## Request Body
+  | Campo           | Tipo    | Requerido | Descripción                           |
+  |-----------------|---------|-----------|---------------------------------------|
+  | categoryId      | uuid    | ✅        | UUID de una categoría tipo `INCOME`   |
+  | amount          | decimal | ✅        | Monto positivo con hasta 2 decimales  |
+  | transactionDate | date    | ✅        | Fecha: `YYYY-MM-DD`                   |
+  | description     | string  | ❌        | Descripción (máx. 500 chars)          |
+  
+  ## Validaciones
+  - `categoryId` debe pertenecer al usuario y ser de tipo `INCOME`
+  - `amount` debe ser positivo (ej: `3500.00`)
+  - `transactionDate` en formato `YYYY-MM-DD`
+}

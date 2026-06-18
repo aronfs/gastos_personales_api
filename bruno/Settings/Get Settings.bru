@@ -14,3 +14,26 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Settings
+  Retorna la configuración del usuario autenticado.
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "uuid",
+      "userId": "uuid",
+      "currency": "USD",
+      "language": "es",
+      "theme": "light",
+      "notificationsEnabled": true
+    }
+  }
+  ```
+
+  ## Notas
+  - Si el usuario no tiene configuración guardada, se crea automáticamente con valores por defecto
+  - Valores por defecto: currency `USD`, language `es`, theme `light`, notifications `true`
+}

@@ -14,3 +14,24 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:query {
+  page: 1
+  limit: 20
+  ~type: INCOME
+}
+
+docs {
+  # Get Categories
+  Retorna las categorías del usuario autenticado con paginación.
+
+  ## Query Params
+  | Param | Tipo    | Requerido | Descripción                           |
+  |-------|---------|-----------|---------------------------------------|
+  | page  | integer | ❌        | Página (default: 1)                   |
+  | limit | integer | ❌        | Items por página (default: 10, max: 100) |
+  | type  | string  | ❌        | Filtrar por tipo: `INCOME` o `EXPENSE` |
+
+  ## Notas
+  - Solo retorna las categorías del usuario autenticado
+  - Ordenadas por tipo y luego por nombre alfabéticamente
+}

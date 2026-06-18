@@ -18,6 +18,7 @@ import expensesRouter from './routes/expenses.routes';
 import dashboardRouter from './routes/dashboard.routes';
 import reportsRouter from './routes/reports.routes';
 import settingsRouter from './routes/settings.routes';
+import movementsRouter from './routes/movements.routes';
 
 const app = express();
 
@@ -72,6 +73,7 @@ app.use(`${env.API_PREFIX}/expenses`, expensesRouter);
 app.use(`${env.API_PREFIX}/dashboard`, dashboardRouter);
 app.use(`${env.API_PREFIX}/reports`, reportsRouter);
 app.use(`${env.API_PREFIX}/settings`, settingsRouter);
+app.use(`${env.API_PREFIX}/movements`, movementsRouter);
 
 // Error Handling Middlewares
 app.use(notFoundHandler);

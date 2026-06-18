@@ -1,7 +1,7 @@
 meta {
   name: Create Category
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
@@ -15,11 +15,31 @@ auth:bearer {
 }
 
 body:json {
-{
-  "name": "Salary",
-  "icon": "briefcase",
-  "color": "#2ECC71",
-  "type": "INCOME"
-}
+  {
+    "name": "Comida-Rapida",
+    "icon": "food",
+    "color": "#3B82F6",
+    "type": "EXPENSE"
+  }
 }
 
+docs {
+  # Create Category
+  Crea una nueva categoría para el usuario autenticado.
+  
+  ## Request Body
+  | Campo | Tipo   | Requerido | Descripción                          |
+  |-------|--------|-----------|--------------------------------------|
+  | name  | string | ✅        | Nombre único por usuario+tipo (máx. 100 chars) |
+  | type  | string | ✅        | `INCOME` o `EXPENSE`                 |
+  | icon  | string | ❌        | Nombre del ícono (ej: `briefcase`)   |
+  | color | string | ❌        | Color hex: `#RRGGBB` (ej: `#FF5733`) |
+  
+  ## Ejemplos de íconos
+  `briefcase`, `laptop`, `trending-up`, `home`, `shopping-cart`,
+  `car`, `heart`, `film`, `book`, `zap`, `tag`
+  
+  ## Notas
+  - El nombre debe ser único por usuario + tipo (INCOME/EXPENSE)
+  - Se puede tener "Salario" en INCOME y "Salario" en EXPENSE sin conflicto
+}

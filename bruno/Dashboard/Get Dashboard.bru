@@ -14,3 +14,52 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Dashboard
+  Retorna el resumen financiero del usuario autenticado.
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "totalIncome": 8300.00,
+      "totalExpense": 5120.00,
+      "currentBalance": 3180.00,
+      "monthlyIncome": 4300.00,
+      "monthlyExpense": 1765.00,
+      "monthlyBalance": 2535.00,
+      "categorySummary": {
+        "income": [
+          {
+            "categoryId": "uuid",
+            "categoryName": "Salario",
+            "categoryColor": "#22c55e",
+            "categoryIcon": "briefcase",
+            "total": 3500.00,
+            "count": 1
+          }
+        ],
+        "expense": [...]
+      },
+      "period": {
+        "month": 6,
+        "year": 2026,
+        "monthStart": "2026-06-01",
+        "monthEnd": "2026-06-30"
+      }
+    }
+  }
+  ```
+
+  ## Campos
+  | Campo          | Descripción                                    |
+  |----------------|------------------------------------------------|
+  | totalIncome    | Suma total de ingresos de todos los tiempos    |
+  | totalExpense   | Suma total de gastos de todos los tiempos      |
+  | currentBalance | Balance general (totalIncome - totalExpense)   |
+  | monthlyIncome  | Ingresos del mes actual                        |
+  | monthlyExpense | Gastos del mes actual                          |
+  | monthlyBalance | Balance del mes actual                         |
+  | categorySummary | Resumen por categoría del mes actual          |
+}

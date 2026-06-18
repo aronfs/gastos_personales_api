@@ -1,11 +1,11 @@
 meta {
   name: Get Expense By Id
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
-  url: {{base_url}}/expenses/44444444-4444-4444-4444-444444444444
+  url: {{base_url}}/expenses/{{expense_id}}
   body: none
   auth: bearer
 }
@@ -14,3 +14,17 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Expense By Id
+  Retorna un gasto por su UUID.
+
+  ## Path Params
+  | Param      | Tipo | Requerido | Descripción    |
+  |------------|------|-----------|----------------|
+  | expense_id | uuid | ✅        | UUID del gasto |
+
+  ## Notas
+  - Solo retorna gastos del usuario autenticado
+  - Incluye los datos completos de la categoría asociada
+  - Retorna 404 si no existe o pertenece a otro usuario
+}

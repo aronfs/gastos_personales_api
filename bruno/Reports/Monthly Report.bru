@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{base_url}}/reports/monthly?year=2026&month=6
+  url: {{base_url}}/reports/monthly
   body: none
   auth: bearer
 }
@@ -14,3 +14,44 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:query {
+  year: 2026
+  month: 6
+}
+
+docs {
+  # Monthly Report
+  Reporte detallado de ingresos y gastos de un mes específico.
+
+  ## Query Params
+  | Param | Tipo    | Requerido | Descripción                         |
+  |-------|---------|-----------|-------------------------------------|
+  | year  | integer | ❌        | Año (default: año actual)           |
+  | month | integer | ❌        | Mes 1-12 (default: mes actual)      |
+
+  ## Response
+  ```json
+  {
+    "data": {
+      "period": {
+        "year": 2026,
+        "month": 6,
+        "monthName": "June"
+      },
+      "summary": {
+        "totalIncome": 4300.00,
+        "totalExpense": 1765.00,
+        "balance": 2535.00,
+        "transactionCount": 8
+      },
+      "incomes": [...],
+      "expenses": [...]
+    }
+  }
+  ```
+
+  ## Notas
+  - Retorna el listado completo de transacciones del mes
+  - Cada transacción incluye los datos de su categoría
+  - Útil para exportar o mostrar resumen mensual en la app
+}

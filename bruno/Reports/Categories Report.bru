@@ -1,11 +1,11 @@
 meta {
   name: Categories Report
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
-  url: {{base_url}}/reports/categories?startDate=2026-06-01&endDate=2026-06-30
+  url: {{base_url}}/reports/categories
   body: none
   auth: bearer
 }
@@ -14,3 +14,52 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:query {
+  startDate: 2026-06-01
+  endDate: 2026-06-30
+}
+
+docs {
+  # Categories Report
+  Reporte de ingresos y gastos desglosado por categoría con porcentajes.
+  Ideal para gráficas de torta (pie/donut charts).
+
+  ## Query Params
+  | Param     | Tipo | Requerido | Descripción                          |
+  |-----------|------|-----------|--------------------------------------|
+  | startDate | date | ❌        | Fecha inicio `YYYY-MM-DD` (default: inicio del mes actual) |
+  | endDate   | date | ❌        | Fecha fin `YYYY-MM-DD` (default: fin del mes actual)       |
+
+  ## Response
+  ```json
+  {
+    "data": {
+      "period": {
+        "startDate": "2026-06-01",
+        "endDate": "2026-06-30"
+      },
+      "summary": {
+        "totalIncome": 4300.00,
+        "totalExpense": 1765.00,
+        "balance": 2535.00
+      },
+      "incomeCategories": [
+        {
+          "categoryId": "uuid",
+          "categoryName": "Salario",
+          "color": "#22c55e",
+          "icon": "briefcase",
+          "total": 3500.00,
+          "count": 1,
+          "percentage": 81.4
+        }
+      ],
+      "expenseCategories": [...]
+    }
+  }
+  ```
+
+  ## Notas
+  - `percentage` está calculado sobre el total de ingresos o gastos respectivamente
+  - Ordenado de mayor a menor monto
+}

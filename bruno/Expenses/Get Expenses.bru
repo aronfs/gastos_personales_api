@@ -5,12 +5,38 @@ meta {
 }
 
 get {
-  url: {{base_url}}/expenses
+  url: {{base_url}}/expenses?page=1&limit=10
   body: none
   auth: bearer
+}
+
+params:query {
+  page: 1
+  limit: 10
+  ~categoryId: 55555555-5555-5555-5555-555555555555
+  ~startDate: 2026-01-01
+  ~endDate: 2026-12-31
 }
 
 auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Expenses
+  Retorna los gastos del usuario autenticado con paginación y filtros.
+  
+  ## Query Params
+  | Param      | Tipo    | Requerido | Descripción                              |
+  |------------|---------|-----------|------------------------------------------|
+  | page       | integer | ❌        | Página (default: 1)                      |
+  | limit      | integer | ❌        | Items por página (default: 10, max: 100) |
+  | categoryId | uuid    | ❌        | Filtrar por categoría                    |
+  | startDate  | date    | ❌        | Fecha inicio: `YYYY-MM-DD`              |
+  | endDate    | date    | ❌        | Fecha fin: `YYYY-MM-DD`                 |
+  
+  ## Notas
+  - Solo retorna gastos del usuario autenticado
+  - Ordenados por `transactionDate` descendente (más recientes primero)
+  - Incluye datos de la categoría en cada item
+}

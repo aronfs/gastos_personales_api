@@ -1,11 +1,11 @@
 meta {
   name: Update User
   type: http
-  seq: 1
+  seq: 4
 }
 
 put {
-  url: {{base_url}}/users/11111111-1111-1111-1111-111111111111
+  url: {{base_url}}/users/{{user_id}}
   body: json
   auth: bearer
 }
@@ -15,10 +15,30 @@ auth:bearer {
 }
 
 body:json {
-{
-  "firstName": "John Updated",
-  "lastName": "Doe Updated",
-  "active": true
-}
+  {
+    "firstName": "John",
+    "lastName": "Doe Updated",
+    "active": true
+  }
 }
 
+docs {
+  # Update User
+  Actualiza los datos básicos de un usuario.
+
+  ## Path Params
+  | Param   | Tipo | Requerido | Descripción      |
+  |---------|------|-----------|------------------|
+  | user_id | uuid | ✅        | UUID del usuario |
+
+  ## Request Body (todos opcionales)
+  | Campo     | Tipo    | Descripción                           |
+  |-----------|---------|---------------------------------------|
+  | firstName | string  | Nuevo nombre                          |
+  | lastName  | string  | Nuevo apellido                        |
+  | active    | boolean | Activar o desactivar la cuenta        |
+
+  ## Notas
+  - No permite cambiar email ni contraseña (usar `/auth/change-password`)
+  - Genera un registro en `audit_logs`
+}

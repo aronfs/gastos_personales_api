@@ -1,0 +1,70 @@
+meta {
+  name: Get Movement Summary
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/movements/summary
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  ~startDate: 2026-06-01
+  ~endDate: 2026-06-30
+}
+
+docs {
+  # Get Movement Summary
+  Retorna totales agregados de ingresos, gastos y balance para un rango de fechas.
+  Si no se especifican fechas, usa el mes en curso.
+
+  Ideal para las tarjetas de resumen en el header de Flutter/Angular.
+
+  ## Query Params
+  | Param     | Tipo | Requerido | Descripción                                        |
+  |-----------|------|-----------|----------------------------------------------------|
+  | startDate | date | ❌        | Fecha inicio `YYYY-MM-DD` (default: inicio del mes) |
+  | endDate   | date | ❌        | Fecha fin `YYYY-MM-DD` (default: fin del mes)       |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Movement summary retrieved",
+    "data": {
+      "totalIncome": 4300.00,
+      "totalExpense": 1765.00,
+      "balance": 2535.00,
+      "movementsCount": 10,
+      "incomeCount": 3,
+      "expenseCount": 7,
+      "period": {
+        "startDate": "2026-06-01",
+        "endDate": "2026-06-30"
+      }
+    }
+  }
+  ```
+
+  ## Campos
+  | Campo          | Descripción                                        |
+  |----------------|----------------------------------------------------|
+  | totalIncome    | Suma de todos los ingresos en el período           |
+  | totalExpense   | Suma de todos los gastos en el período             |
+  | balance        | `totalIncome - totalExpense`                       |
+  | movementsCount | Total de transacciones (ingresos + gastos)         |
+  | incomeCount    | Número de ingresos en el período                  |
+  | expenseCount   | Número de gastos en el período                    |
+  | period         | Rango efectivo aplicado en la consulta             |
+
+  ## Diferencia con Dashboard
+  - `/dashboard` calcula el balance **histórico total** (todos los tiempos)
+  - `/movements/summary` es filtrable por rango de fechas arbitrario
+  - Más flexible para widgets de semana, mes, año o período personalizado
+}

@@ -1,0 +1,93 @@
+meta {
+  name: Get Movements
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/movements
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  page: 1
+  limit: 20
+  ~type: INCOME
+  ~categoryId: 22222222-2222-2222-2222-222222222222
+  ~startDate: 2026-01-01
+  ~endDate: 2026-12-31
+}
+
+docs {
+  # Get Movements
+  Retorna el historial financiero unificado: ingresos y gastos mezclados en una sola lista,
+  ordenados por `transactionDate` descendente (más recientes primero).
+
+  Diseñado especialmente para el feed de transacciones en Flutter/Angular.
+
+  ## Query Params
+  | Param      | Tipo    | Requerido | Descripción                              |
+  |------------|---------|-----------|------------------------------------------|
+  | page       | integer | ❌        | Página (default: 1)                      |
+  | limit      | integer | ❌        | Items por página (default: 20, max: 100) |
+  | type       | string  | ❌        | Filtrar: `INCOME` o `EXPENSE`            |
+  | categoryId | uuid    | ❌        | Filtrar por categoría específica         |
+  | startDate  | date    | ❌        | Fecha inicio: `YYYY-MM-DD`              |
+  | endDate    | date    | ❌        | Fecha fin: `YYYY-MM-DD`                 |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Movements retrieved",
+    "data": [
+      {
+        "id": "uuid",
+        "type": "INCOME",
+        "amount": 3500.00,
+        "description": "Salario mensual",
+        "category": {
+          "id": "uuid",
+          "name": "Salario",
+          "icon": "briefcase",
+          "color": "#22c55e"
+        },
+        "transactionDate": "2026-06-01",
+        "createdAt": "2026-06-01T10:00:00.000Z"
+      },
+      {
+        "id": "uuid",
+        "type": "EXPENSE",
+        "amount": 85.50,
+        "description": "Supermercado",
+        "category": {
+          "id": "uuid",
+          "name": "Alimentación",
+          "icon": "shopping-cart",
+          "color": "#ef4444"
+        },
+        "transactionDate": "2026-06-05",
+        "createdAt": "2026-06-05T14:30:00.000Z"
+      }
+    ],
+    "meta": {
+      "total": 42,
+      "page": 1,
+      "limit": 20,
+      "totalPages": 3,
+      "hasNextPage": true,
+      "hasPrevPage": false
+    }
+  }
+  ```
+
+  ## Notas
+  - La paginación se aplica sobre la lista unificada ya ordenada
+  - El campo `type` en cada item indica si es `INCOME` o `EXPENSE`
+  - Incluye `icon` y `color` de la categoría para renderizar avatares en la UI
+}

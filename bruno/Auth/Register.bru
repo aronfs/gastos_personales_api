@@ -11,11 +11,38 @@ post {
 }
 
 body:json {
-{
-  "email": "user@gastos.local",
-  "password": "User123*",
-  "firstName": "John",
-  "lastName": "Doe"
-}
+  {
+    "email": "newuser@gastos.local",
+    "password": "NewUser123*",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
 }
 
+script:post-response {
+  if (res.status === 201) {
+    bru.setEnvVar("access_token", res.body.data.accessToken);
+    bru.setEnvVar("refresh_token", res.body.data.refreshToken);
+  }
+}
+
+docs {
+  # Register
+  Registra un nuevo usuario en el sistema.
+
+  ## Request Body
+  | Campo       | Tipo   | Requerido | Descripción               |
+  |-------------|--------|-----------|---------------------------|
+  | email       | string | ✅        | Email único del usuario   |
+  | password    | string | ✅        | Mín. 8 chars, mayús, núm, especial |
+  | firstName   | string | ✅        | Nombre                    |
+  | lastName    | string | ✅        | Apellido                  |
+
+  ## Response
+  Retorna `accessToken`, `refreshToken` y datos del usuario creado.
+
+  ## Notas
+  - La contraseña debe tener mínimo 8 caracteres
+  - Debe incluir al menos: 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial
+  - El token se guarda automáticamente en las variables de entorno
+}

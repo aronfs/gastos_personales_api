@@ -1,7 +1,7 @@
 meta {
   name: Login
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
@@ -11,15 +11,53 @@ post {
 }
 
 body:json {
-{
-  "email": "user@gastos.local",
-  "password": "User123*"
-}
+  /*{
+    "email": "user@gastos.local",
+    "password": "User123*"
+  }*/
+  {
+      "email": "newuser@gastos.local",
+    "password": "NewUser123*"
+  }
 }
 
 script:post-response {
   if (res.status === 200) {
-    bru.setEnvVar('access_token', res.body.data.accessToken);
-    bru.setEnvVar('refresh_token', res.body.data.refreshToken);
+    bru.setEnvVar("access_token", res.body.data.accessToken);
+    bru.setEnvVar("refresh_token", res.body.data.refreshToken);
   }
+}
+
+docs {
+  # Login
+  Autentica un usuario y retorna tokens JWT.
+  
+  ## Usuarios de prueba
+  | Email                  | Password   | Rol   |
+  |------------------------|------------|-------|
+  | admin@gastos.local     | Admin123*  | ADMIN |
+  | user@gastos.local      | User123*   | USER  |
+  
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "accessToken": "eyJ...",
+      "refreshToken": "eyJ...",
+      "user": {
+        "id": "uuid",
+        "email": "user@gastos.local",
+        "firstName": "Usuario",
+        "lastName": "Demo",
+        "roles": ["USER"]
+      }
+    }
+  }
+  ```
+  
+  ## Notas
+  - `accessToken` expira en 15 minutos
+  - `refreshToken` expira en 30 días
+  - Los tokens se guardan automáticamente en las variables de entorno
 }

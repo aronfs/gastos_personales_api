@@ -109,7 +109,45 @@ const options: swaggerJsdoc.Options = {
             updatedAt: { type: 'string', format: 'date-time' },
           },
         },
-        Setting: {
+        Movement: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          type: { type: 'string', enum: ['INCOME', 'EXPENSE'] },
+          amount: { type: 'number', format: 'decimal', example: 3500.0 },
+          description: { type: 'string', nullable: true },
+          category: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', format: 'uuid' },
+              name: { type: 'string' },
+              icon: { type: 'string', nullable: true },
+              color: { type: 'string', nullable: true },
+            },
+          },
+          transactionDate: { type: 'string', format: 'date', example: '2026-06-01' },
+          createdAt: { type: 'string', format: 'date-time' },
+        },
+      },
+      MovementSummary: {
+        type: 'object',
+        properties: {
+          totalIncome: { type: 'number', example: 4300.0 },
+          totalExpense: { type: 'number', example: 1765.0 },
+          balance: { type: 'number', example: 2535.0 },
+          movementsCount: { type: 'integer', example: 10 },
+          incomeCount: { type: 'integer', example: 3 },
+          expenseCount: { type: 'integer', example: 7 },
+          period: {
+            type: 'object',
+            properties: {
+              startDate: { type: 'string', format: 'date', example: '2026-06-01' },
+              endDate: { type: 'string', format: 'date', example: '2026-06-30' },
+            },
+          },
+        },
+      },
+      Setting: {
           type: 'object',
           properties: {
             id: { type: 'string', format: 'uuid' },
@@ -132,6 +170,7 @@ const options: swaggerJsdoc.Options = {
       { name: 'Dashboard', description: 'Dashboard summary' },
       { name: 'Reports', description: 'Financial reports' },
       { name: 'Settings', description: 'User settings' },
+      { name: 'Movements', description: 'Unified income + expense history' },
     ],
   },
   apis: ['./src/routes/*.ts', './src/controllers/*.ts'],

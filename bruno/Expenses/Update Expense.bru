@@ -1,11 +1,11 @@
 meta {
   name: Update Expense
   type: http
-  seq: 1
+  seq: 4
 }
 
 put {
-  url: {{base_url}}/expenses/44444444-4444-4444-4444-444444444444
+  url: {{base_url}}/expenses/{{expense_id}}
   body: json
   auth: bearer
 }
@@ -15,9 +15,30 @@ auth:bearer {
 }
 
 body:json {
-{
-  "amount": 18,
-  "description": "Lunch with team updated"
-}
+  {
+    "amount": 92.00,
+    "description": "Supermercado semanal + artículos limpieza"
+  }
 }
 
+docs {
+  # Update Expense
+  Actualiza un gasto existente del usuario autenticado.
+
+  ## Path Params
+  | Param      | Tipo | Requerido | Descripción    |
+  |------------|------|-----------|----------------|
+  | expense_id | uuid | ✅        | UUID del gasto |
+
+  ## Request Body (todos opcionales)
+  | Campo           | Tipo    | Descripción                           |
+  |-----------------|---------|---------------------------------------|
+  | categoryId      | uuid    | Nueva categoría tipo `EXPENSE`        |
+  | amount          | decimal | Nuevo monto positivo                  |
+  | description     | string  | Nueva descripción (máx. 500 chars)    |
+  | transactionDate | date    | Nueva fecha: `YYYY-MM-DD`            |
+
+  ## Notas
+  - Solo se actualizan los campos enviados
+  - Si se envía `categoryId`, debe ser de tipo `EXPENSE`
+}

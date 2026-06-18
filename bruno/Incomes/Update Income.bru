@@ -1,11 +1,11 @@
 meta {
   name: Update Income
   type: http
-  seq: 1
+  seq: 4
 }
 
 put {
-  url: {{base_url}}/incomes/33333333-3333-3333-3333-333333333333
+  url: {{base_url}}/incomes/{{income_id}}
   body: json
   auth: bearer
 }
@@ -15,9 +15,31 @@ auth:bearer {
 }
 
 body:json {
-{
-  "amount": 2600,
-  "description": "Monthly salary payout with bonus"
-}
+  {
+    "amount": 3800.00,
+    "description": "Salario mensual junio 2026 + bono",
+    "transactionDate": "2026-06-01"
+  }
 }
 
+docs {
+  # Update Income
+  Actualiza un ingreso existente del usuario autenticado.
+
+  ## Path Params
+  | Param     | Tipo | Requerido | Descripción      |
+  |-----------|------|-----------|------------------|
+  | income_id | uuid | ✅        | UUID del ingreso |
+
+  ## Request Body (todos opcionales)
+  | Campo           | Tipo    | Descripción                           |
+  |-----------------|---------|---------------------------------------|
+  | categoryId      | uuid    | Nueva categoría tipo `INCOME`         |
+  | amount          | decimal | Nuevo monto positivo                  |
+  | description     | string  | Nueva descripción (máx. 500 chars)    |
+  | transactionDate | date    | Nueva fecha: `YYYY-MM-DD`            |
+
+  ## Notas
+  - Solo se actualizan los campos enviados
+  - Si se envía `categoryId`, debe ser de tipo `INCOME`
+}

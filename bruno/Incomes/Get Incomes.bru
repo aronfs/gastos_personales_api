@@ -5,12 +5,38 @@ meta {
 }
 
 get {
-  url: {{base_url}}/incomes
+  url: {{base_url}}/incomes?page=1&limit=10&categoryId=d2e966f0-3dac-469f-a377-ea12bd1cffe7&startDate=2026-01-01&endDate=2026-12-31
   body: none
   auth: bearer
+}
+
+params:query {
+  page: 1
+  limit: 10
+  categoryId: d2e966f0-3dac-469f-a377-ea12bd1cffe7
+  startDate: 2026-01-01
+  endDate: 2026-12-31
 }
 
 auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Get Incomes
+  Retorna los ingresos del usuario autenticado con paginación y filtros.
+  
+  ## Query Params
+  | Param      | Tipo    | Requerido | Descripción                              |
+  |------------|---------|-----------|------------------------------------------|
+  | page       | integer | ❌        | Página (default: 1)                      |
+  | limit      | integer | ❌        | Items por página (default: 10, max: 100) |
+  | categoryId | uuid    | ❌        | Filtrar por categoría                    |
+  | startDate  | date    | ❌        | Fecha inicio: `YYYY-MM-DD`              |
+  | endDate    | date    | ❌        | Fecha fin: `YYYY-MM-DD`                 |
+  
+  ## Notas
+  - Solo retorna ingresos del usuario autenticado
+  - Ordenados por `transactionDate` descendente (más recientes primero)
+  - Incluye datos de la categoría en cada item
+}

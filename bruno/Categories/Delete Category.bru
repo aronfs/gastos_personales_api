@@ -1,11 +1,11 @@
 meta {
   name: Delete Category
   type: http
-  seq: 1
+  seq: 5
 }
 
 delete {
-  url: {{base_url}}/categories/22222222-2222-2222-2222-222222222222
+  url: {{base_url}}/categories/{{category_id}}
   body: none
   auth: bearer
 }
@@ -14,3 +14,17 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Delete Category
+  Elimina una categoría del usuario autenticado.
+
+  ## Path Params
+  | Param       | Tipo | Requerido | Descripción         |
+  |-------------|------|-----------|---------------------|
+  | category_id | uuid | ✅        | UUID de la categoría |
+
+  ## ⚠️ Restricción
+  - No se puede eliminar una categoría que tenga **ingresos o gastos asociados**
+  - En ese caso retorna `400` con mensaje: `"Cannot delete category with existing transactions"`
+  - Primero debes eliminar o reasignar las transacciones asociadas
+}

@@ -1,11 +1,11 @@
 meta {
   name: Delete Expense
   type: http
-  seq: 1
+  seq: 5
 }
 
 delete {
-  url: {{base_url}}/expenses/44444444-4444-4444-4444-444444444444
+  url: {{base_url}}/expenses/{{expense_id}}
   body: none
   auth: bearer
 }
@@ -14,3 +14,17 @@ auth:bearer {
   token: {{access_token}}
 }
 
+docs {
+  # Delete Expense
+  Elimina un gasto del usuario autenticado.
+
+  ## Path Params
+  | Param      | Tipo | Requerido | Descripción    |
+  |------------|------|-----------|----------------|
+  | expense_id | uuid | ✅        | UUID del gasto |
+
+  ## Notas
+  - Solo puede eliminar gastos propios
+  - Acción irreversible
+  - Retorna 404 si el gasto no existe o pertenece a otro usuario
+}

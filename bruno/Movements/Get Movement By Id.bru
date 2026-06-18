@@ -1,0 +1,59 @@
+meta {
+  name: Get Movement By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/movements/{{movement_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Movement By Id
+  Busca un movimiento por su UUID.
+  Primero busca en `incomes`; si no lo encuentra, busca en `expenses`.
+
+  ## Path Params
+  | Param       | Tipo | Requerido | Descripción                              |
+  |-------------|------|-----------|------------------------------------------|
+  | movement_id | uuid | ✅        | UUID del income o expense a buscar       |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Movement retrieved",
+    "data": {
+      "id": "uuid",
+      "type": "EXPENSE",
+      "amount": 85.50,
+      "description": "Supermercado semanal",
+      "category": {
+        "id": "uuid",
+        "name": "Alimentación",
+        "icon": "shopping-cart",
+        "color": "#ef4444"
+      },
+      "transactionDate": "2026-06-05",
+      "createdAt": "2026-06-05T14:30:00.000Z"
+    }
+  }
+  ```
+
+  ## Errores
+  | Status | Descripción                                              |
+  |--------|----------------------------------------------------------|
+  | 400    | El ID no es un UUID válido                               |
+  | 404    | No existe ningún income ni expense con ese ID para el usuario |
+
+  ## Notas
+  - El UUID puede ser el ID de un ingreso o de un gasto indistintamente
+  - Solo retorna movimientos del usuario autenticado
+  - Útil para la pantalla de detalle de transacción en Flutter
+}

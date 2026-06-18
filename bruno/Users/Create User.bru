@@ -1,7 +1,7 @@
 meta {
   name: Create User
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
@@ -15,14 +15,30 @@ auth:bearer {
 }
 
 body:json {
-{
-  "email": "admin_created@gastos.local",
-  "password": "User123*",
-  "firstName": "AdminCreated",
-  "lastName": "User",
-  "roles": [
-    "USER"
-  ]
-}
+  {
+    "email": "newadmin@gastos.local",
+    "password": "Admin456@",
+    "firstName": "New",
+    "lastName": "Admin",
+    "roles": ["ADMIN"]
+  }
 }
 
+docs {
+  # Create User
+  Crea un usuario directamente desde el panel admin. **Solo ADMIN.**
+
+  ## Request Body
+  | Campo     | Tipo     | Requerido | Descripción                          |
+  |-----------|----------|-----------|--------------------------------------|
+  | email     | string   | ✅        | Email único                          |
+  | password  | string   | ✅        | Contraseña con reglas de seguridad   |
+  | firstName | string   | ✅        | Nombre                               |
+  | lastName  | string   | ✅        | Apellido                             |
+  | roles     | string[] | ❌        | Array de roles: `ADMIN`, `USER` (default: `USER`) |
+
+  ## Diferencia con /auth/register
+  - Este endpoint es exclusivo para administradores
+  - Permite asignar roles al usuario creado
+  - No retorna tokens (solo datos del usuario)
+}

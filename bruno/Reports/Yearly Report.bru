@@ -1,11 +1,11 @@
 meta {
   name: Yearly Report
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
-  url: {{base_url}}/reports/yearly?year=2026
+  url: {{base_url}}/reports/yearly
   body: none
   auth: bearer
 }
@@ -14,3 +14,46 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:query {
+  year: 2026
+}
+
+docs {
+  # Yearly Report
+  Reporte anual agrupado por mes, ideal para gráficas de barras/líneas.
+
+  ## Query Params
+  | Param | Tipo    | Requerido | Descripción               |
+  |-------|---------|-----------|---------------------------|
+  | year  | integer | ❌        | Año (default: año actual) |
+
+  ## Response
+  ```json
+  {
+    "data": {
+      "year": 2026,
+      "summary": {
+        "totalIncome": 52000.00,
+        "totalExpense": 31200.00,
+        "balance": 20800.00
+      },
+      "months": [
+        {
+          "month": 1,
+          "monthName": "January",
+          "income": 4300.00,
+          "expense": 2600.00,
+          "balance": 1700.00,
+          "incomeCount": 2,
+          "expenseCount": 5
+        },
+        ...
+      ]
+    }
+  }
+  ```
+
+  ## Notas
+  - Siempre retorna los 12 meses del año (con `0` en meses sin transacciones)
+  - Perfecto para renderizar gráficas comparativas ingresos vs gastos
+}

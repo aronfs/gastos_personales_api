@@ -14,3 +14,38 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:query {
+  page: 1
+  limit: 10
+  ~search: john
+  ~active: true
+}
+
+docs {
+  # Get Users
+  Retorna la lista paginada de usuarios. **Solo ADMIN.**
+
+  ## Query Params
+  | Param  | Tipo    | Requerido | Descripción                        |
+  |--------|---------|-----------|------------------------------------|
+  | page   | integer | ❌        | Página (default: 1)                |
+  | limit  | integer | ❌        | Items por página (default: 10, max: 100) |
+  | search | string  | ❌        | Busca en email, nombre y apellido  |
+  | active | boolean | ❌        | Filtra por estado activo/inactivo  |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": [...],
+    "meta": {
+      "total": 2,
+      "page": 1,
+      "limit": 10,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPrevPage": false
+    }
+  }
+  ```
+}
