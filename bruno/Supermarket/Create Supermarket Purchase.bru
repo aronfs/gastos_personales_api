@@ -1,0 +1,56 @@
+meta {
+  name: Create Supermarket Purchase
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/expenses/supermarket
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "categoryId": "{{category_id}}",
+    "description": "Compra Supermaxi",
+    "transactionDate": "2026-06-18",
+    "products": [
+      {
+        "productId": "{{product_id}}",
+        "quantity": 2
+      }
+    ]
+  }
+}
+
+docs {
+  # Create Supermarket Purchase
+
+  Crea un gasto de supermercado compuesto por múltiples productos.
+
+  El monto total se calcula automáticamente sumando los subtotales de cada producto.
+
+  ## Request Body
+
+  | Campo | Tipo | Requerido | Descripción |
+  |-------|------|-----------|-------------|
+  | categoryId | string (UUID) | Sí | ID de la categoría (tipo EXPENSE) |
+  | description | string | No | Descripción de la compra |
+  | transactionDate | string | Sí | Fecha (YYYY-MM-DD) |
+  | products | array | Sí | Lista de productos (mínimo 1) |
+  | products[].productId | string (UUID) | Sí | ID del producto |
+  | products[].quantity | integer | Sí | Cantidad (positivo) |
+
+  ## Ejemplo de cálculo
+
+  Arroz: 2 x $1.50 = $3.00
+  Leche: 4 x $1.20 = $4.80
+  Total: $7.80
+
+  El total $7.80 se guarda en expenses.amount
+}

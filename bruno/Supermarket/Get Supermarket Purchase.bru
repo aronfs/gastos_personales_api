@@ -1,0 +1,29 @@
+meta {
+  name: Get Supermarket Purchase
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/expenses/supermarket/{{supermarket_expense_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Supermarket Purchase
+
+  Obtiene el detalle de una compra de supermercado, incluyendo todos los productos comprados.
+
+  | Campo | Tipo | Descripción |
+  |-------|------|-------------|
+  | id | path | UUID del gasto de supermercado |
+
+  ## Response
+
+  Retorna el gasto con el desglose de productos, cantidades, precios unitarios y subtotales.
+}

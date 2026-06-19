@@ -1,0 +1,35 @@
+meta {
+  name: Get Products
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/products?page=1&limit=10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+  ~categoryId: {{category_id}}
+  ~active: true
+}
+
+docs {
+  # Get Products
+
+  Obtiene la lista de productos con paginación y filtros opcionales.
+
+  | Campo | Tipo | Descripción |
+  |-------|------|-------------|
+  | page | query | Página (default: 1) |
+  | limit | query | Límite por página (default: 10) |
+  | categoryId | query | Filtrar por categoría (opcional) |
+  | active | query | Filtrar por estado activo (opcional) |
+}

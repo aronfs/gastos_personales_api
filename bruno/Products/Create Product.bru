@@ -1,0 +1,41 @@
+meta {
+  name: Create Product
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/products
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "categoryId": "{{category_id}}",
+    "name": "Arroz",
+    "description": "Arroz integral 1kg",
+    "unitPrice": 1.50
+  }
+}
+
+vars:pre-request {
+  category_id: 6cfda14c-f673-4cce-9e54-2d59c0509cc1
+}
+
+docs {
+  # Create Product
+  
+  Crea un nuevo producto asociado a una categoría.
+  
+  | Campo | Tipo | Requerido | Descripción |
+  |-------|------|-----------|-------------|
+  | categoryId | string (UUID) | Sí | ID de la categoría |
+  | name | string | Sí | Nombre del producto (1-150 chars) |
+  | description | string | No | Descripción del producto |
+  | unitPrice | number | Sí | Precio unitario (positivo, 2 decimales) |
+}

@@ -29,6 +29,11 @@ export const expensesRepository = {
         orderBy: { transactionDate: 'desc' },
         include: {
           category: true,
+          expenseProducts: {
+            include: {
+              product: true,
+            },
+          },
         },
       }),
     ]);
@@ -39,7 +44,14 @@ export const expensesRepository = {
   async findById(id: string, userId: string) {
     return prisma.expense.findFirst({
       where: { id, userId },
-      include: { category: true },
+      include: {
+        category: true,
+        expenseProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
   },
 
@@ -52,7 +64,14 @@ export const expensesRepository = {
   }) {
     return prisma.expense.create({
       data,
-      include: { category: true },
+      include: {
+        category: true,
+        expenseProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
   },
 
@@ -69,7 +88,14 @@ export const expensesRepository = {
     return prisma.expense.update({
       where: { id },
       data,
-      include: { category: true },
+      include: {
+        category: true,
+        expenseProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
   },
 

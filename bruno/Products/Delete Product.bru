@@ -1,0 +1,27 @@
+meta {
+  name: Delete Product
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/products/{{product_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Delete Product
+
+  Desactiva un producto (soft delete).
+
+  El producto no se elimina de la base de datos, se marca como inactivo.
+
+  | Campo | Tipo | Descripción |
+  |-------|------|-------------|
+  | id | path | UUID del producto |
+}

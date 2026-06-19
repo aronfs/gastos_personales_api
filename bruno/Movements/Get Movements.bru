@@ -5,13 +5,9 @@ meta {
 }
 
 get {
-  url: {{base_url}}/movements
+  url: {{base_url}}/movements?page=1&limit=20
   body: none
   auth: bearer
-}
-
-auth:bearer {
-  token: {{access_token}}
 }
 
 params:query {
@@ -23,13 +19,17 @@ params:query {
   ~endDate: 2026-12-31
 }
 
+auth:bearer {
+  token: {{access_token}}
+}
+
 docs {
   # Get Movements
   Retorna el historial financiero unificado: ingresos y gastos mezclados en una sola lista,
   ordenados por `transactionDate` descendente (más recientes primero).
-
+  
   Diseñado especialmente para el feed de transacciones en Flutter/Angular.
-
+  
   ## Query Params
   | Param      | Tipo    | Requerido | Descripción                              |
   |------------|---------|-----------|------------------------------------------|
@@ -39,7 +39,7 @@ docs {
   | categoryId | uuid    | ❌        | Filtrar por categoría específica         |
   | startDate  | date    | ❌        | Fecha inicio: `YYYY-MM-DD`              |
   | endDate    | date    | ❌        | Fecha fin: `YYYY-MM-DD`                 |
-
+  
   ## Response
   ```json
   {
@@ -85,7 +85,7 @@ docs {
     }
   }
   ```
-
+  
   ## Notas
   - La paginación se aplica sobre la lista unificada ya ordenada
   - El campo `type` en cada item indica si es `INCOME` o `EXPENSE`

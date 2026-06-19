@@ -1,0 +1,37 @@
+meta {
+  name: Update Product
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/products/{{product_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "name": "Arroz Integral Premium",
+    "unitPrice": 1.75,
+    "description": "Arroz integral premium 1kg"
+  }
+}
+
+docs {
+  # Update Product
+
+  Actualiza un producto existente.
+
+  | Campo | Tipo | Requerido | Descripción |
+  |-------|------|-----------|-------------|
+  | categoryId | string (UUID) | No | Nueva categoría |
+  | name | string | No | Nuevo nombre (1-150 chars) |
+  | description | string | No | Nueva descripción |
+  | unitPrice | number | No | Nuevo precio unitario |
+  | active | boolean | No | Estado activo/inactivo |
+}

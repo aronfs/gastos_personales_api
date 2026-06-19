@@ -1,0 +1,25 @@
+meta {
+  name: Get Product By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/products/{{product_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Product By Id
+
+  Obtiene un producto por su ID.
+
+  | Campo | Tipo | Descripción |
+  |-------|------|-------------|
+  | id | path | UUID del producto |
+}
