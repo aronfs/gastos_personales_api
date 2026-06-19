@@ -175,13 +175,13 @@ export const movementsService = {
       prisma.expense.count({ where: { userId, ...dateWhere } }),
     ]);
 
-    const totalIncome = Number(incomeAgg._sum.amount || 0);
-    const totalExpense = Number(expenseAgg._sum.amount || 0);
+    const totalIncome = Number(Number(incomeAgg._sum.amount || 0).toFixed(2));
+    const totalExpense = Number(Number(expenseAgg._sum.amount || 0).toFixed(2));
 
     return {
       totalIncome,
       totalExpense,
-      balance: totalIncome - totalExpense,
+      balance: Number((totalIncome - totalExpense).toFixed(2)),
       movementsCount: incomeCount + expenseCount,
       incomeCount,
       expenseCount,

@@ -47,7 +47,7 @@ export const dashboardService = {
         categoryName: cat?.name || 'Unknown',
         categoryColor: cat?.color || null,
         categoryIcon: cat?.icon || null,
-        total: Number(item._sum.amount || 0),
+        total: Number(Number(item._sum.amount || 0).toFixed(2)),
         count: item._count,
       };
     });
@@ -59,18 +59,23 @@ export const dashboardService = {
         categoryName: cat?.name || 'Unknown',
         categoryColor: cat?.color || null,
         categoryIcon: cat?.icon || null,
-        total: Number(item._sum.amount || 0),
+        total: Number(Number(item._sum.amount || 0).toFixed(2)),
         count: item._count,
       };
     });
 
+    const roundedTotalIncome = Number(totalIncome.toFixed(2));
+    const roundedTotalExpense = Number(totalExpense.toFixed(2));
+    const roundedMonthlyIncome = Number(monthlyIncome.toFixed(2));
+    const roundedMonthlyExpense = Number(monthlyExpense.toFixed(2));
+
     return {
-      totalIncome,
-      totalExpense,
-      currentBalance: totalIncome - totalExpense,
-      monthlyIncome,
-      monthlyExpense,
-      monthlyBalance: monthlyIncome - monthlyExpense,
+      totalIncome: roundedTotalIncome,
+      totalExpense: roundedTotalExpense,
+      currentBalance: Number((roundedTotalIncome - roundedTotalExpense).toFixed(2)),
+      monthlyIncome: roundedMonthlyIncome,
+      monthlyExpense: roundedMonthlyExpense,
+      monthlyBalance: Number((roundedMonthlyIncome - roundedMonthlyExpense).toFixed(2)),
       categorySummary: {
         income: incomeCategorySummary,
         expense: expenseCategorySummary,

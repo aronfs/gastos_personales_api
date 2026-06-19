@@ -12,10 +12,10 @@ post {
 
 body:json {
   {
-    "email": "newuser@gastos.local",
-    "password": "NewUser123*",
-    "firstName": "John",
-    "lastName": "Doe"
+    "email": "aronviracocha7@gmail.com",
+    "password": "Emy.com35",
+    "firstName": "Aaron",
+    "lastName": "Viracocha"
   }
 }
 
@@ -29,7 +29,7 @@ script:post-response {
 docs {
   # Register
   Registra un nuevo usuario en el sistema.
-
+  
   ## Request Body
   | Campo       | Tipo   | Requerido | Descripción               |
   |-------------|--------|-----------|---------------------------|
@@ -37,10 +37,10 @@ docs {
   | password    | string | ✅        | Mín. 8 chars, mayús, núm, especial |
   | firstName   | string | ✅        | Nombre                    |
   | lastName    | string | ✅        | Apellido                  |
-
+  
   ## Response
   Retorna `accessToken`, `refreshToken` y datos del usuario creado.
-
+  
   ## Notas
   - La contraseña debe tener mínimo 8 caracteres
   - Debe incluir al menos: 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial

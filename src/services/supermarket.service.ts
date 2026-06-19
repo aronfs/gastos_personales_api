@@ -1,6 +1,8 @@
 import { supermarketRepository } from '../repositories/supermarket.repository';
 import { productsRepository } from '../repositories/products.repository';
 import { categoriesRepository } from '../repositories/categories.repository';
+import { incomesRepository } from '../repositories/incomes.repository';
+import { expensesRepository } from '../repositories/expenses.repository';
 import { CategoryType } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import type { CreateSupermarketPurchaseInput } from '../validators/supermarket.validator';
@@ -39,7 +41,7 @@ export const supermarketService = {
     const expenseProducts = data.products.map((item) => {
       const product = productMap.get(item.productId)!;
       const unitPrice = product.unitPrice;
-      const subtotal = new Decimal(item.quantity).mul(unitPrice);
+      const subtotal = new Decimal(item.quantity).mul(unitPrice).toDecimalPlaces(2);
 
       return {
         productId: item.productId,
@@ -49,10 +51,27 @@ export const supermarketService = {
       };
     });
 
-    const totalAmount = expenseProducts.reduce(
-      (sum, ep) => sum.add(ep.subtotal),
-      new Decimal(0),
-    );
+    const totalAmount = expenseProducts
+      .reduce((sum, ep) => sum.add(ep.subtotal), new Decimal(0))
+      .toDecimalPlaces(2);
+
+    const now = new Date();
+    const allTimeStart = new Date(2000, 0, 1);
+    const [rawTotalIncome, rawTotalExpense] = await Promise.all([
+      incomesRepository.getTotalByPeriod(userId, allTimeStart, now),
+      expensesRepository.getTotalByPeriod(userId, allTimeStart, now),
+    ]);
+    const totalIncome = Number(rawTotalIncome.toFixed(2));
+    const totalExpense = Number(rawTotalExpense.toFixed(2));
+    const currentBalance = Number((totalIncome - totalExpense).toFixed(2));
+
+    if (currentBalance <= 0) {
+      throw { statusCode: 400, message: 'sin saldo restante estas en cero 0' };
+    }
+
+    if (totalAmount.toNumber() > currentBalance) {
+      throw { statusCode: 400, message: 'supera el saldo restante' };
+    }
 
     // Create expense + expense_products in a single transaction
     const result = await supermarketRepository.createPurchase({

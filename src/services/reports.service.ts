@@ -27,8 +27,8 @@ export const reportsService = {
 
     const { incomes, expenses } = await reportsRepository.getMonthlyReport(userId, year, month);
 
-    const totalIncome = incomes.reduce((sum, i) => sum + Number(i.amount), 0);
-    const totalExpense = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+    const totalIncome = Number(incomes.reduce((sum, i) => sum + Number(i.amount), 0).toFixed(2));
+    const totalExpense = Number(expenses.reduce((sum, e) => sum + Number(e.amount), 0).toFixed(2));
 
     return {
       period: {
@@ -39,7 +39,7 @@ export const reportsService = {
       summary: {
         totalIncome,
         totalExpense,
-        balance: totalIncome - totalExpense,
+        balance: Number((totalIncome - totalExpense).toFixed(2)),
         transactionCount: incomes.length + expenses.length,
       },
       incomes: incomes.map((i) => ({
@@ -68,29 +68,29 @@ export const reportsService = {
       const incomeData = incomesByMonth.find((r) => r.month === monthNum);
       const expenseData = expensesByMonth.find((r) => r.month === monthNum);
 
-      const income = Number(incomeData?.total || 0);
-      const expense = Number(expenseData?.total || 0);
+      const income = Number(Number(incomeData?.total || 0).toFixed(2));
+      const expense = Number(Number(expenseData?.total || 0).toFixed(2));
 
       return {
         month: monthNum,
         monthName: MONTH_NAMES[i],
         income,
         expense,
-        balance: income - expense,
+        balance: Number((income - expense).toFixed(2)),
         incomeCount: incomeData?.count || 0,
         expenseCount: expenseData?.count || 0,
       };
     });
 
-    const totalIncome = months.reduce((sum, m) => sum + m.income, 0);
-    const totalExpense = months.reduce((sum, m) => sum + m.expense, 0);
+    const totalIncome = Number(months.reduce((sum, m) => sum + m.income, 0).toFixed(2));
+    const totalExpense = Number(months.reduce((sum, m) => sum + m.expense, 0).toFixed(2));
 
     return {
       year,
       summary: {
         totalIncome,
         totalExpense,
-        balance: totalIncome - totalExpense,
+        balance: Number((totalIncome - totalExpense).toFixed(2)),
       },
       months,
     };
@@ -111,18 +111,18 @@ export const reportsService = {
       endDate,
     );
 
-    const totalIncome = incomesByCategory.reduce((sum, c) => sum + Number(c.total), 0);
-    const totalExpense = expensesByCategory.reduce((sum, c) => sum + Number(c.total), 0);
+    const totalIncome = Number(incomesByCategory.reduce((sum, c) => sum + Number(c.total), 0).toFixed(2));
+    const totalExpense = Number(expensesByCategory.reduce((sum, c) => sum + Number(c.total), 0).toFixed(2));
 
     const incomeWithPercentage = incomesByCategory.map((c) => ({
       ...c,
-      total: Number(c.total),
+      total: Number(Number(c.total).toFixed(2)),
       percentage: totalIncome > 0 ? Math.round((Number(c.total) / totalIncome) * 100 * 10) / 10 : 0,
     }));
 
     const expenseWithPercentage = expensesByCategory.map((c) => ({
       ...c,
-      total: Number(c.total),
+      total: Number(Number(c.total).toFixed(2)),
       percentage:
         totalExpense > 0 ? Math.round((Number(c.total) / totalExpense) * 100 * 10) / 10 : 0,
     }));
@@ -135,7 +135,7 @@ export const reportsService = {
       summary: {
         totalIncome,
         totalExpense,
-        balance: totalIncome - totalExpense,
+        balance: Number((totalIncome - totalExpense).toFixed(2)),
       },
       incomeCategories: incomeWithPercentage,
       expenseCategories: expenseWithPercentage,

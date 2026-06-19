@@ -1,5 +1,6 @@
 import { expensesRepository } from '../repositories/expenses.repository';
 import { categoriesRepository } from '../repositories/categories.repository';
+import { incomesRepository } from '../repositories/incomes.repository';
 import { parsePagination, buildPaginationMeta } from '../utils/pagination';
 import { CategoryType } from '@prisma/client';
 import type { CreateExpenseInput, UpdateExpenseInput } from '../validators/expenses.validator';
@@ -32,6 +33,24 @@ export const expensesService = {
     }
     if (category.type !== CategoryType.EXPENSE) {
       throw { statusCode: 400, message: 'Category must be of type EXPENSE' };
+    }
+
+    const now = new Date();
+    const allTimeStart = new Date(2000, 0, 1);
+    const [rawTotalIncome, rawTotalExpense] = await Promise.all([
+      incomesRepository.getTotalByPeriod(userId, allTimeStart, now),
+      expensesRepository.getTotalByPeriod(userId, allTimeStart, now),
+    ]);
+    const totalIncome = Number(rawTotalIncome.toFixed(2));
+    const totalExpense = Number(rawTotalExpense.toFixed(2));
+    const currentBalance = Number((totalIncome - totalExpense).toFixed(2));
+
+    if (currentBalance <= 0) {
+      throw { statusCode: 400, message: 'sin saldo restante estas en cero 0' };
+    }
+
+    if (data.amount > currentBalance) {
+      throw { statusCode: 400, message: 'supera el saldo restante' };
     }
 
     return expensesRepository.create({
