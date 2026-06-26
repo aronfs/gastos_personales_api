@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import multer from 'multer';
 import { Prisma } from '@prisma/client';
 import { logger } from '../utils/logger';
 
@@ -43,6 +44,34 @@ export const errorHandler = (
       success: false,
       message: 'Invalid data provided',
       error: { type: 'ValidationError' },
+    });
+    return;
+  }
+
+  // Multer errors (file upload)
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      res.status(400).json({
+        success: false,
+        message: 'File size exceeds the maximum allowed size',
+        error: { type: 'LIMIT_FILE_SIZE', field: error.field },
+      });
+      return;
+    }
+
+    res.status(400).json({
+      success: false,
+      message: error.message,
+      error: { type: error.code, field: error.field },
+    });
+    return;
+  }
+
+  // Custom file filter errors (thrown as Error, not MulterError)
+  if (error.message?.includes('Invalid file type') || error.message?.includes('Invalid file extension')) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
     return;
   }

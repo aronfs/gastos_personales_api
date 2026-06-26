@@ -1,0 +1,45 @@
+meta {
+  name: Delete Profile Image
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{base_url}}/profile-image
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "confirmation": "DELETE"
+  }
+}
+
+docs {
+  # Delete Profile Image
+  Elimina la imagen de perfil del usuario autenticado.
+
+  ## body
+  | Campo         | Tipo   | Requerido | Descripción                      |
+  |---------------|--------|-----------|----------------------------------|
+  | confirmation  | string | ✅        | Debe enviar `"DELETE"` literal   |
+
+  ## Notas
+  - Elimina el archivo físico del disco
+  - Elimina el registro de la base de datos
+  - Si no existe imagen retorna 404
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Profile image deleted successfully",
+    "data": null
+  }
+  ```
+}

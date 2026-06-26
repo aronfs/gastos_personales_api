@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -21,6 +22,8 @@ import settingsRouter from './routes/settings.routes';
 import movementsRouter from './routes/movements.routes';
 import profileRouter from './routes/profile.routes';
 import productsRouter from './routes/products.routes';
+import profileImageRouter from './routes/profile-image.routes';
+import imagesRouter from './routes/images.routes';
 
 const app = express();
 
@@ -36,8 +39,19 @@ app.use(
   }),
 );
 app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Aumentamos el límite de JSON para soportar imágenes en Base64 (máx ~10MB)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Servir archivos estáticos (imágenes de perfil, etc.)
+const uploadsDir = path.resolve(process.cwd(), env.UPLOAD_DIR);
+app.use(`/${env.UPLOAD_DIR}`, express.static(uploadsDir));
+
+// Servir archivos del Image Storage Bucket
+const storageDir = path.resolve(process.cwd(), env.IMAGE_STORAGE_PATH);
+app.use(`/storage/images`, express.static(storageDir));
+
 app.use(httpLogger);
 
 // Rate Limiting
@@ -77,6 +91,8 @@ app.use(`${env.API_PREFIX}/reports`, reportsRouter);
 app.use(`${env.API_PREFIX}/settings`, settingsRouter);
 app.use(`${env.API_PREFIX}/movements`, movementsRouter);
 app.use(`${env.API_PREFIX}/profile`, profileRouter);
+app.use(`${env.API_PREFIX}/profile-image`, profileImageRouter);
+app.use(`${env.API_PREFIX}/images`, imagesRouter);
 app.use(`${env.API_PREFIX}/products`, productsRouter);
 
 // Error Handling Middlewares

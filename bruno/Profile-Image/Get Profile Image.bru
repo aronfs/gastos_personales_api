@@ -1,0 +1,41 @@
+meta {
+  name: Get Profile Image
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/profile-image
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Profile Image
+  Retorna los metadatos de la imagen de perfil del usuario autenticado.
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "uuid",
+      "user_id": "uuid",
+      "file_name": "user_123_abc.jpg",
+      "file_url": "/uploads/profile-images/user_123_abc.jpg",
+      "mime_type": "image/jpeg",
+      "file_size": 102400,
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2025-01-01T00:00:00.000Z"
+    }
+  }
+  ```
+
+  ## Notas
+  - La URL pública del archivo se sirve desde `/uploads/profile-images/`
+  - Si no existe imagen retorna 404
+}

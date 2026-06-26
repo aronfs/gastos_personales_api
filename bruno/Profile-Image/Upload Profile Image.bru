@@ -1,0 +1,66 @@
+meta {
+  name: Upload Profile Image
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/profile-image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+  }
+}
+
+body:multipart-form {
+  image: @file(/home/aaronfs/Descargas/655820015_2391026634750108_7668639975339766925_n.jpg) @contentType(image/jpeg)
+}
+
+docs {
+  # Upload Profile Image
+  Sube o reemplaza la imagen de perfil del usuario autenticado.
+  
+  La imagen debe enviarse como **data URI en Base64**.
+  
+  ## body
+  | Campo | Tipo   | Requerido | Descripción                                      |
+  |-------|--------|-----------|--------------------------------------------------|
+  | image | string | ✅        | Data URI: `data:image/{type};base64,{data}`      |
+  
+  ## Formatos permitidos
+  | Tipo            | Extensión |
+  |-----------------|-----------|
+  | image/jpeg      | .jpg      |
+  | image/png       | .png      |
+  | image/webp      | .webp     |
+  
+  ## Límites
+  - Tamaño máximo: 5 MB (configurable vía `UPLOAD_MAX_FILE_SIZE`)
+  - Se validan magic bytes para evitar archivos corruptos
+  - Si ya existe una imagen previa, se elimina y reemplaza
+  
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "uuid",
+      "user_id": "uuid",
+      "file_name": "user_123_abc.jpg",
+      "file_url": "/uploads/profile-images/user_123_abc.jpg",
+      "mime_type": "image/jpeg",
+      "file_size": 1024,
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2025-01-01T00:00:00.000Z"
+    }
+  }
+  ```
+}

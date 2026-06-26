@@ -31,6 +31,16 @@ export class ProfileService {
             notificationsEnabled: true,
           },
         },
+        profileImage: {
+          select: {
+            id: true,
+            fileName: true,
+            fileUrl: true,
+            mimeType: true,
+            fileSize: true,
+            createdAt: true,
+          },
+        },
       },
     });
 
@@ -61,6 +71,16 @@ export class ProfileService {
             theme: 'dark',
             notifications_enabled: true,
           },
+      profile_image: user.profileImage
+        ? {
+            id: user.profileImage.id,
+            file_name: user.profileImage.fileName,
+            file_url: user.profileImage.fileUrl,
+            mime_type: user.profileImage.mimeType,
+            file_size: user.profileImage.fileSize,
+            created_at: user.profileImage.createdAt,
+          }
+        : null,
       created_at: user.createdAt,
     };
   }

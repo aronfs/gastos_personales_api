@@ -23,6 +23,13 @@ const envSchema = z.object({
     .string()
     .default('true')
     .transform((v) => v === 'true'),
+
+  // Uploads
+  UPLOAD_MAX_FILE_SIZE: z.string().default('5242880').transform(Number),
+  UPLOAD_DIR: z.string().default('uploads'),
+
+  // Image Storage Bucket
+  IMAGE_STORAGE_PATH: z.string().default('storage/images'),
 });
 
 const parsed = envSchema.safeParse(process.env);

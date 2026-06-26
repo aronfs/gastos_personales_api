@@ -1,0 +1,28 @@
+meta {
+  name: Get Profile Image File
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/profile-image/file
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Profile Image File
+  Redirecciona (302) al archivo físico de la imagen de perfil del usuario autenticado.
+
+  ## Response
+  Redirección 302 a la URL del archivo.
+  Si no existe imagen retorna 404.
+
+  ## Notas
+  - El navegador sigue la redirección automáticamente y muestra la imagen.
+  - Útil para usar en etiquetas `<img src="..." />` o para descargar la imagen.
+}

@@ -1,0 +1,57 @@
+meta {
+  name: Upload Image
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/images/upload
+  body: formdata
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:formdata {
+  image: @file(../test-assets/sample.png)
+  folder: users/profile
+}
+
+docs {
+  # Upload Image
+  Sube una imagen al bucket de almacenamiento usando `multipart/form-data`.
+
+  ## FormData
+  | Campo  | Tipo | Requerido | Descripción                                  |
+  |--------|------|-----------|----------------------------------------------|
+  | image  | file | ✅        | Archivo de imagen (jpg, jpeg, png, webp)     |
+  | folder | text | ✅        | Carpeta destino (ej: `users/profile`)        |
+
+  ## Formatos permitidos
+  | Tipo       | Extensión |
+  |------------|-----------|
+  | image/jpeg | .jpg      |
+  | image/png  | .png      |
+  | image/webp | .webp     |
+
+  ## Límites
+  - Tamaño máximo: 5 MB (configurable vía `UPLOAD_MAX_FILE_SIZE`)
+  - Se valida MIME type y extensión del archivo
+  - El folder se sanitiza para evitar path traversal
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "file_name": "a1b2c3_1234567890.jpg",
+      "path": "users/profile/a1b2c3_1234567890.jpg",
+      "url": "/users/profile/a1b2c3_1234567890.jpg",
+      "size": 1024,
+      "mime_type": "image/jpeg"
+    }
+  }
+  ```
+}
