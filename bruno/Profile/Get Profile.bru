@@ -1,0 +1,42 @@
+meta {
+  name: Get Profile
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/profile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Profile
+  Retorna el perfil del usuario autenticado con sus roles y configuración.
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "uuid",
+      "email": "user@gastos.local",
+      "first_name": "Usuario",
+      "last_name": "Demo",
+      "active": true,
+      "roles": [{ "id": "uuid", "name": "USER" }],
+      "settings": {
+        "currency": "USD",
+        "language": "es",
+        "theme": "dark",
+        "notifications_enabled": true
+      },
+      "created_at": "2025-01-01T00:00:00.000Z"
+    }
+  }
+  ```
+}

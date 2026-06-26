@@ -1,0 +1,45 @@
+meta {
+  name: Deactivate User
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{base_url}}/users/{{user_id}}/deactivate
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "confirmation": "DEACTIVATE"
+  }
+}
+
+docs {
+  # Deactivate User
+  Desactiva lógicamente la cuenta de un usuario. **Solo ADMIN.**
+
+  ## Advertencia
+  - El usuario no podrá iniciar sesión
+  - Los refresh tokens existentes serán rechazados al expirar
+  - Para reactivar: usar `PUT /users/:id` con `active: true`
+
+  ## body
+  | Campo         | Tipo   | Requerido | Descripción                          |
+  |---------------|--------|-----------|--------------------------------------|
+  | confirmation  | string | ✅        | Debe enviar `"DEACTIVATE"` literal   |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "User deactivated successfully",
+    "data": null
+  }
+  ```
+}

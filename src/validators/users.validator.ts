@@ -42,5 +42,16 @@ export const getUsersSchema = z.object({
   }),
 });
 
+export const deactivateUserSchema = z.object({
+  params: z.object({
+    id: z.string().uuid('Invalid user ID'),
+  }),
+  body: z.object({
+    confirmation: z.literal('DEACTIVATE', {
+      errorMap: () => ({ message: 'Must send confirmation: "DEACTIVATE"' }),
+    }),
+  }),
+});
+
 export type CreateUserInput = z.infer<typeof createUserSchema>['body'];
 export type UpdateUserInput = z.infer<typeof updateUserSchema>['body'];

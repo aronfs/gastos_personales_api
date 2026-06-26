@@ -176,6 +176,24 @@ export const updateUser = async (
  *       404:
  *         description: User not found
  */
+export const deactivateUser = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    await usersService.deactivate(req.params.id, req.user!.sub);
+    sendSuccess(res, null, 'User deactivated successfully');
+  } catch (error) {
+    const err = error as { statusCode?: number; message?: string };
+    if (err.statusCode) {
+      sendError(res, err.message || 'User deactivation failed', err.statusCode);
+      return;
+    }
+    next(error);
+  }
+};
+
 export const deleteUser = async (
   req: AuthenticatedRequest,
   res: Response,

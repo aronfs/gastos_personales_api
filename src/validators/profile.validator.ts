@@ -19,4 +19,12 @@ export const updateProfileSchema = z.object({
   }),
 });
 
+export const deactivateProfileSchema = z.object({
+  body: z.object({
+    confirmation: z.literal('DEACTIVATE', {
+      errorMap: () => ({ message: 'Must send confirmation: "DEACTIVATE"' }),
+    }),
+  }),
+});
+
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>['body'];

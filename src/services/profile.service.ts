@@ -1,5 +1,5 @@
 import { prisma } from '../config/database';
-
+import { AuditAction } from '@prisma/client';
 import { UpdateProfileInput } from '../validators/profile.validator';
 
 export class ProfileService {
@@ -79,6 +79,35 @@ export class ProfileService {
       data: {
         firstName: data.first_name,
         lastName: data.last_name,
+      },
+    });
+  }
+
+  async deactivateProfile(userId: string) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw { statusCode: 404, message: 'User not found' };
+    }
+
+    if (!user.active) {
+      throw { statusCode: 400, message: 'Account is already deactivated' };
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { active: false },
+    });
+
+    await prisma.auditLog.create({
+      data: {
+        userId,
+        action: AuditAction.UPDATE,
+        entity: 'user',
+        oldValue: { active: true },
+        newValue: { active: false },
       },
     });
   }

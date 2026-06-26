@@ -4,6 +4,7 @@ import {
   getUserById,
   createUser,
   updateUser,
+  deactivateUser,
   deleteUser,
 } from '../controllers/users.controller';
 import { authenticate } from '../middlewares/auth.middleware';
@@ -14,6 +15,7 @@ import {
   updateUserSchema,
   getUserSchema,
   getUsersSchema,
+  deactivateUserSchema,
 } from '../validators/users.validator';
 
 const router = Router();
@@ -25,6 +27,7 @@ router.get('/', validate(getUsersSchema), getUsers);
 router.get('/:id', validate(getUserSchema), getUserById);
 router.post('/', validate(createUserSchema), createUser);
 router.put('/:id', validate(updateUserSchema), updateUser);
+router.patch('/:id/deactivate', validate(deactivateUserSchema), deactivateUser);
 router.delete('/:id', deleteUser);
 
 export default router;

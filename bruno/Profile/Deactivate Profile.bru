@@ -1,0 +1,45 @@
+meta {
+  name: Deactivate Profile
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/profile/deactivate
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "confirmation": "DEACTIVATE"
+  }
+}
+
+docs {
+  # Deactivate Profile
+  Desactiva lógicamente la cuenta del usuario autenticado.
+
+  ## Advertencia
+  - Esta acción es **irreversible desde el perfil**
+  - El usuario no podrá iniciar sesión nuevamente
+  - Un administrador puede reactivar la cuenta
+
+  ## body
+  | Campo         | Tipo   | Requerido | Descripción                          |
+  |---------------|--------|-----------|--------------------------------------|
+  | confirmation  | string | ✅        | Debe enviar `"DEACTIVATE"` literal   |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Profile deactivated successfully",
+    "data": null
+  }
+  ```
+}

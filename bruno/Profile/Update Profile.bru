@@ -1,0 +1,42 @@
+meta {
+  name: Update Profile
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{base_url}}/profile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "first_name": "Usuario",
+    "last_name": "Demo"
+  }
+}
+
+docs {
+  # Update Profile
+  Actualiza el nombre y apellido del usuario autenticado.
+
+  ## body
+  | Campo      | Tipo   | Requerido | Descripción                  |
+  |------------|--------|-----------|------------------------------|
+  | first_name | string | ✅        | Nombre (2-100 caracteres)    |
+  | last_name  | string | ✅        | Apellido (2-100 caracteres)  |
+
+  ## Response
+  ```json
+  {
+    "success": true,
+    "message": "Profile updated successfully",
+    "data": {}
+  }
+  ```
+}

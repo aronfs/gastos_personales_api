@@ -11,7 +11,7 @@ export const getProfile = async (
   try {
     const userId = req.user!.sub;
     const profile = await profileService.getProfile(userId);
-    
+
     sendSuccess(res, profile, 'Profile retrieved successfully');
   } catch (error) {
     next(error);
@@ -26,8 +26,23 @@ export const updateProfile = async (
   try {
     const userId = req.user!.sub;
     await profileService.updateProfile(userId, req.body);
-    
+
     sendSuccess(res, {}, 'Profile updated successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deactivateProfile = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const userId = req.user!.sub;
+    await profileService.deactivateProfile(userId);
+
+    sendSuccess(res, null, 'Profile deactivated successfully');
   } catch (error) {
     next(error);
   }

@@ -120,4 +120,34 @@ export const usersService = {
       },
     });
   },
+
+  async deactivate(id: string, requesterId: string) {
+    const user = await usersRepository.findById(id);
+    if (!user) {
+      throw { statusCode: 404, message: 'User not found' };
+    }
+
+    if (!user.active) {
+      throw { statusCode: 400, message: 'User is already deactivated' };
+    }
+
+    if (id === requesterId) {
+      throw {
+        statusCode: 400,
+        message: 'Cannot deactivate your own account. Use profile deactivation instead.',
+      };
+    }
+
+    await usersRepository.update(id, { active: false });
+
+    await prisma.auditLog.create({
+      data: {
+        userId: requesterId,
+        action: AuditAction.UPDATE,
+        entity: 'user',
+        oldValue: { email: user.email, active: true },
+        newValue: { email: user.email, active: false },
+      },
+    });
+  },
 };
